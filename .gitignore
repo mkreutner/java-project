@@ -23,5 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-# Environment files
+# Project files
 .env
+data/opt
+data/tmp
+project

@@ -18,8 +18,8 @@ down-pp:
     @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml down --remove-orphans --volumes
 
 # List containers
-ps:
-    @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml ps
+ps *OPTIONS:
+    @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml ps {{OPTIONS}}
 
 # Restart service containers
 restart:
@@ -40,6 +40,10 @@ shell CONTAINER SHELL="bash":
 # Display tdout logs in CONTAINER 
 logs CONTAINER:
     @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml logs -f -n 40 {{CONTAINER}}
+
+# Execute a COMMAND in a new CONTAINER
+gradle CONTAINER *COMMAND:
+    @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml exec {{CONTAINER}} gradle {{COMMAND}}
 
 # Clean Bash History file
 history-clean CONTAINER:

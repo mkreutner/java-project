@@ -26,38 +26,8 @@ RUN apt-get -qq -y update && apt-get -qq -y upgrade \
     && ln -fs /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
-# Intall Jenkins
-RUN wget -O /etc/apt/keyrings/jenkins-keyring.asc \
-    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key \
-    && echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
-        https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-        /etc/apt/sources.list.d/jenkins.list > /dev/null \
-    && apt-get update \
-    && apt-get -qq -y install fontconfig jenkins
+WORKDIR /home/gradle/project
+USER gradle
 
-# Create developer user
-RUN addgroup --gid ${GID} ${USERNAME} \
-    && adduser --uid ${UID} --gid ${GID} --disabled-password --gecos "${COMMENT}" --shell ${SHELL} ${USERNAME} \
-    && usermod -aG sudo ${USERNAME} \
-    && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/casper
-
-# Install Oracle JDK
-RUN curl -o /tmp/jdk-${JDK_VERSION}_linux-x64_bin.deb https://download.oracle.com/java/${JDK_VERSION}/latest/jdk-${JDK_VERSION}_linux-x64_bin.deb \
-    && apt-get -qq -y install /tmp/jdk-${JDK_VERSION}_linux-x64_bin.deb \
-    && rm /tmp/jdk-${JDK_VERSION}_linux-x64_bin.deb \
-    && ln -s $(dirname $(dirname $(readlink -f $(which java)))) /usr/lib/jvm/jdk-${JDK_VERSION}
-
-# Install Gradle
-RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -O /tmp/gradle-${GRADLE_VERSION}-bin.zip \
-    && unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip \
-    && rm /tmp/gradle-${GRADLE_VERSION}-bin.zip
-
-# Set environment variables
-ENV GRADLE_HOME=/opt/gradle/gradle-${GRADLE_VERSION}
-ENV PATH=${PATH}:${GRADLE_HOME}/bin 
-ENV JAVA_HOME=/usr/lib/jvm/jdk-${JDK_VERSION}
-ENV PATH=${PATH}:${JAVA_HOME}/bin
-
-# Set user and working directory
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}
+VOLUME [ "/home/gradle/project", "/opt" ]
+CMD [ "bash" ]

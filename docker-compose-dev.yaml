@@ -15,10 +15,10 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - "./src/sandbox:/home/${COMMON_USERNAME:-developer}"
-      - "sndbx_sandbox_jvm:/usr/lib/jvm/"
-    user: "${COMMON_USERNAME:-developer}"
-    working_dir: "/home/${COMMON_USERNAME:-developer}"
+      - "./project:/home/gradle/project"
+      - "sndbx_sandbox_opt:/opt"
+    user: "gradle"
+    working_dir: "/home/gradle/project"
 
   postgres:
     build:
@@ -84,9 +84,3 @@ volumes:
       type: "none"
       o: "bind"
       device: "./data/opt"
-  sndbx_sandbox_project:
-    driver: local
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "./project"

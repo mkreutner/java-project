@@ -17,3 +17,9 @@ The gradle image used contain a user with `uid=1000` ans `gid=1000`.
 Run `just setup` to prepare necessary directories and config files.
 
 The `just` to list receipts available for project.
+
+## Gradle documentation - French translation 
+
+### Gradle Tutorials
+
+* [Getting Started](./docs/getting_started.md)

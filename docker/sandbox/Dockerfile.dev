@@ -29,5 +29,5 @@ RUN apt-get -qq -y update && apt-get -qq -y upgrade \
 WORKDIR /home/gradle/project
 USER gradle
 
-VOLUME [ "/home/gradle/project", "/opt" ]
+VOLUME [ "/home/gradle", "/opt" ]
 CMD [ "bash" ]

@@ -41,9 +41,13 @@ shell CONTAINER SHELL="bash":
 logs CONTAINER:
     @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml logs -f -n 40 {{CONTAINER}}
 
-# Execute a COMMAND in a new CONTAINER
+# Execute a gradle COMMAND in a new CONTAINER
 gradle CONTAINER *COMMAND:
     @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml exec {{CONTAINER}} gradle {{COMMAND}}
+
+# Execute a gradlew COMMAND in a new CONTAINER
+gradlew CONTAINER *COMMAND:
+    @docker compose --file docker-compose-${COMMON_ENVIRONMENT}.yaml exec {{CONTAINER}} ./gradlew {{COMMAND}}
 
 # Clean Bash History file
 history-clean CONTAINER:

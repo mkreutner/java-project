@@ -15,10 +15,10 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - "./project:/home/gradle/project"
+      - "./network-learn:/home/gradle/network-learn"
       - "sndbx_sandbox_opt:/opt"
     user: "gradle"
-    working_dir: "/home/gradle/project"
+    working_dir: "/home/gradle/network-learn"
 
   postgres:
     build:

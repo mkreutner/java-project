@@ -22,4 +22,4 @@ The `just` to list receipts available for project.
 
 ### Gradle Tutorials
 
-* [Getting Started](./docs/getting_started.md)
+* [Getting Started](./docs/tutorials/getting_started.md)
